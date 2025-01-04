@@ -12,6 +12,8 @@ extends Node3D
 @onready var left_wheel : MeshInstance3D = $"CarMesh/wheel-front-left"
 @onready var body_mesh : MeshInstance3D = $"CarMesh/body"
 
+@onready var engine_audio: AudioStreamPlayer3D = $AudioStreamPlayer3D
+
 
 # Where to place the car mesh relative to the rigid body sphere
 @export var sphere_offset : Vector3 = Vector3(0, -1.0, 0)
@@ -43,6 +45,9 @@ func _process(delta: float) -> void:
 	# Can't accelerate/steer when in the air
 	if not ground_ray.is_colliding():
 		return
+		
+	
+	
 	# Get accelerate/brake input
 	speed_input = 0.0
 	speed_input -= Input.get_action_strength("accelerate")
@@ -71,6 +76,10 @@ func _process(delta: float) -> void:
 	var ground_ray_normal = ground_ray.get_collision_normal()
 	var xform = align_with_y(car_mesh.global_transform, ground_ray_normal.normalized())
 	car_mesh.global_transform = car_mesh.global_transform.interpolate_with(xform, 10 * delta)
+	
+	if engine_audio.stream:
+		engine_audio.pitch_scale = 1.0 + abs(speed_input) / acceleration
+		engine_audio.volume_db = -10.0 + 10.0 * abs(speed_input) / acceleration
 
 func align_with_y(xform, new_y):
 	xform.basis.y = new_y

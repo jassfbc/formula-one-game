@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://d24bjoiviva4"]
+[gd_scene load_steps=6 format=3 uid="uid://d24bjoiviva4"]
 
 [ext_resource type="PackedScene" uid="uid://quw2up5lw5w5" path="res://kenny-car-kit/suv.glb" id="1_1a65k"]
 [ext_resource type="Script" path="res://car_example.gd" id="1_8husl"]
+[ext_resource type="AudioStream" uid="uid://by3qx4wg20d4j" path="res://audio/engine.wav" id="3_5bi44"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_kc6ci"]
 bounce = 0.1
@@ -32,3 +33,10 @@ fov = 70.0
 size = 10.0
 
 [node name="GroundRay" type="RayCast3D" parent="."]
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_5bi44")
+autoplay = true
+playback_type = 1
+
+[node name="AudioListener3D" type="AudioListener3D" parent="."]
